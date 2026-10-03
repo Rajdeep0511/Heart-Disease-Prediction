@@ -42,22 +42,7 @@ one encoding, sanity-checked and de-duplicated. The site's **About the model** p
 The original project used Gradient Boosting with `learning_rate=1.0, max_depth=1` and retrained it from the database on every request.
 This version trains once, saves the model, and loads it at startup.
 
-## Things you should know
 
-1. **The Kaggle `heart.csv` label is inverted** (`target=1` means *no* disease) and its categorical codes
-   are renumbered relative to the UCI documentation. This was verified from the data: class counts match Cleveland's
-   164 healthy / 139 diseased, and `target=1` correlates with younger age, higher max heart rate and no exercise angina.
-   The adapters correct this, and `patients/tests.py::test_direction_is_correct` fails if it ever regresses.
-2. **Datasets 1, 3 and 4 are the same ~300 Cleveland patients.** Combining them adds no information; the
-   1025-row version repeats patients about 3 times, which is why many notebooks report ~99% accuracy (leakage).
-   Only the Heart Failure dataset adds new patients (Hungarian, Swiss, Long Beach).
-3. **Cardiovascular Disease (70k rows) is not used.** It has different features (3-level cholesterol, no ECG,
-   max heart rate or ST data), so it cannot share a model with the 13 clinical inputs.
-4. **BMI / pulse pressure** need height, weight and diastolic BP, which these datasets do not contain.
-5. The shipped model was trained on `data/heart.csv` only (302 unique patients): CV ROC-AUC about 0.91,
-   hold-out about 0.90 with a wide interval because the test set is 61 rows. Add the Heart Failure dataset for
-   roughly 3x more patients. Differences between algorithms at this size are within noise.
-6. This is an educational screening estimate, not a diagnosis.
 
 ## Layout
 
