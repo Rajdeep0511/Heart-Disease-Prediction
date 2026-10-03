@@ -1,0 +1,42 @@
+{% load static %}<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Heart Risk Check{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/site.css' %}">
+</head>
+<body>
+<header class="bar">
+  <div class="wrap bar-inner">
+    <a class="brand" href="{% url 'home' %}">Heart Risk Check</a>
+    <nav aria-label="Main">
+      {% if user.is_authenticated %}
+        <a href="{% url 'predict' %}" {% if request.resolver_match.url_name == 'predict' %}aria-current="page"{% endif %}>New check</a>
+        <a href="{% url 'history' %}" {% if request.resolver_match.url_name == 'history' %}aria-current="page"{% endif %}>History</a>
+        <a href="{% url 'profile' %}" {% if request.resolver_match.url_name == 'profile' %}aria-current="page"{% endif %}>My details</a>
+        <a href="{% url 'model_info' %}" {% if request.resolver_match.url_name == 'model_info' %}aria-current="page"{% endif %}>About the model</a>
+        <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="linklike" type="submit">Log out</button></form>
+      {% else %}
+        <a href="{% url 'model_info' %}">About the model</a>
+        <a href="{% url 'login' %}">Log in</a>
+        <a class="btn small" href="{% url 'register' %}">Create account</a>
+      {% endif %}
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  {% if messages %}
+    <div class="messages" role="status">
+      {% for message in messages %}<p class="msg {{ message.tags }}">{{ message }}</p>{% endfor %}
+    </div>
+  {% endif %}
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="wrap foot">
+  <p>This tool gives a statistical estimate from published clinical datasets. It is not a diagnosis and does not replace a doctor. If you have chest pain, breathlessness or feel unwell, seek medical care now.</p>
+</footer>
+</body>
+</html>

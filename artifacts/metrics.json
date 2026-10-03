@@ -1,0 +1,315 @@
+{
+  "trained_at": "2026-10-03T17:15:26+00:00",
+  "best_model": "Stacking (top 4 + LR)",
+  "calibrated": false,
+  "imbalance_strategy": "class weights",
+  "n_samples": 302,
+  "disease_prevalence": 0.457,
+  "dataset_report": {
+    "sources": [
+      {
+        "file": "heart.csv",
+        "adapter": "kaggle_uci",
+        "rows_raw": 303,
+        "label_checks": {
+          "exang": 0.437,
+          "oldpeak": 0.431,
+          "ca": 0.464,
+          "age": 0.225,
+          "thalach": -0.422,
+          "cp_asymptomatic": 0.516
+        },
+        "rows_after_exact_dedupe": 302,
+        "rows_final": 302,
+        "dropped_exact_duplicates": 1,
+        "dropped_overlap_with_other_files": 0
+      }
+    ],
+    "total_rows": 302,
+    "skipped_files": []
+  },
+  "cv": {
+    "folds": 5,
+    "repeats": 2,
+    "table": [
+      {
+        "model": "Stacking (top 4 + LR)",
+        "auc": 0.9081,
+        "auc_std": 0.0435,
+        "accuracy": 0.8403,
+        "accuracy_std": 0.0463,
+        "f1": 0.8242,
+        "f1_std": 0.0467,
+        "recall": 0.8136,
+        "recall_std": 0.0555,
+        "precision": 0.8428,
+        "precision_std": 0.091,
+        "brier": 0.1205,
+        "brier_std": 0.027
+      },
+      {
+        "model": "Soft Voting (top 3)",
+        "auc": 0.9063,
+        "auc_std": 0.042,
+        "accuracy": 0.8424,
+        "accuracy_std": 0.038,
+        "f1": 0.8267,
+        "f1_std": 0.0373,
+        "recall": 0.8182,
+        "recall_std": 0.0538,
+        "precision": 0.8441,
+        "precision_std": 0.0865,
+        "brier": 0.1219,
+        "brier_std": 0.0259
+      },
+      {
+        "model": "SVM (RBF)",
+        "auc": 0.8993,
+        "auc_std": 0.039,
+        "accuracy": 0.8321,
+        "accuracy_std": 0.038,
+        "f1": 0.8186,
+        "f1_std": 0.0332,
+        "recall": 0.8227,
+        "recall_std": 0.0475,
+        "precision": 0.8226,
+        "precision_std": 0.0824,
+        "brier": 0.1268,
+        "brier_std": 0.0241
+      },
+      {
+        "model": "Logistic Regression",
+        "auc": 0.8992,
+        "auc_std": 0.0516,
+        "accuracy": 0.8383,
+        "accuracy_std": 0.046,
+        "f1": 0.8241,
+        "f1_std": 0.045,
+        "recall": 0.8227,
+        "recall_std": 0.0475,
+        "precision": 0.8321,
+        "precision_std": 0.088,
+        "brier": 0.1223,
+        "brier_std": 0.0338
+      },
+      {
+        "model": "Random Forest",
+        "auc": 0.8988,
+        "auc_std": 0.0382,
+        "accuracy": 0.8113,
+        "accuracy_std": 0.0473,
+        "f1": 0.7925,
+        "f1_std": 0.0519,
+        "recall": 0.7909,
+        "recall_std": 0.0793,
+        "precision": 0.8029,
+        "precision_std": 0.0804,
+        "brier": 0.1282,
+        "brier_std": 0.0239
+      },
+      {
+        "model": "Extra Trees",
+        "auc": 0.8981,
+        "auc_std": 0.0451,
+        "accuracy": 0.832,
+        "accuracy_std": 0.0543,
+        "f1": 0.8169,
+        "f1_std": 0.0575,
+        "recall": 0.8182,
+        "recall_std": 0.0704,
+        "precision": 0.8224,
+        "precision_std": 0.0891,
+        "brier": 0.1246,
+        "brier_std": 0.028
+      },
+      {
+        "model": "Gradient Boosting",
+        "auc": 0.8936,
+        "auc_std": 0.0518,
+        "accuracy": 0.8132,
+        "accuracy_std": 0.0477,
+        "f1": 0.7937,
+        "f1_std": 0.0504,
+        "recall": 0.7864,
+        "recall_std": 0.0814,
+        "precision": 0.8142,
+        "precision_std": 0.1001,
+        "brier": 0.1293,
+        "brier_std": 0.0317
+      },
+      {
+        "model": "XGBoost",
+        "auc": 0.8927,
+        "auc_std": 0.0525,
+        "accuracy": 0.8278,
+        "accuracy_std": 0.0392,
+        "f1": 0.8095,
+        "f1_std": 0.0447,
+        "recall": 0.8045,
+        "recall_std": 0.0762,
+        "precision": 0.8227,
+        "precision_std": 0.0721,
+        "brier": 0.1303,
+        "brier_std": 0.0344
+      },
+      {
+        "model": "Hist Gradient Boosting",
+        "auc": 0.8874,
+        "auc_std": 0.0546,
+        "accuracy": 0.8238,
+        "accuracy_std": 0.0432,
+        "f1": 0.8058,
+        "f1_std": 0.0496,
+        "recall": 0.8045,
+        "recall_std": 0.0762,
+        "precision": 0.8133,
+        "precision_std": 0.066,
+        "brier": 0.1371,
+        "brier_std": 0.0352
+      },
+      {
+        "model": "Neural Network (MLP)",
+        "auc": 0.8864,
+        "auc_std": 0.0483,
+        "accuracy": 0.8237,
+        "accuracy_std": 0.0445,
+        "f1": 0.8057,
+        "f1_std": 0.0438,
+        "recall": 0.7955,
+        "recall_std": 0.0547,
+        "precision": 0.8241,
+        "precision_std": 0.0898,
+        "brier": 0.1361,
+        "brier_std": 0.0355
+      },
+      {
+        "model": "LightGBM",
+        "auc": 0.8838,
+        "auc_std": 0.0544,
+        "accuracy": 0.8092,
+        "accuracy_std": 0.0451,
+        "f1": 0.7888,
+        "f1_std": 0.0479,
+        "recall": 0.7818,
+        "recall_std": 0.0782,
+        "precision": 0.8056,
+        "precision_std": 0.0782,
+        "brier": 0.1447,
+        "brier_std": 0.0404
+      },
+      {
+        "model": "k-Nearest Neighbours",
+        "auc": 0.8757,
+        "auc_std": 0.0486,
+        "accuracy": 0.8114,
+        "accuracy_std": 0.0461,
+        "f1": 0.7799,
+        "f1_std": 0.0566,
+        "recall": 0.7364,
+        "recall_std": 0.0755,
+        "precision": 0.8357,
+        "precision_std": 0.0692,
+        "brier": 0.1387,
+        "brier_std": 0.0289
+      }
+    ]
+  },
+  "holdout": {
+    "auc": 0.9004,
+    "accuracy": 0.8033,
+    "precision": 0.8333,
+    "recall": 0.7143,
+    "specificity": 0.8788,
+    "f1": 0.7692,
+    "brier": 0.1261,
+    "confusion_matrix": {
+      "tn": 29,
+      "fp": 4,
+      "fn": 8,
+      "tp": 20
+    },
+    "n": 61,
+    "auc_ci95": [
+      0.8128,
+      0.9703
+    ],
+    "accuracy_ci95": [
+      0.7045,
+      0.9016
+    ]
+  },
+  "holdout_uncalibrated_brier": 0.1261,
+  "holdout_calibrated_brier": 0.1253,
+  "tuning": {},
+  "permutation_importance": [
+    {
+      "feature": "ca",
+      "importance": 0.0598,
+      "std": 0.0221
+    },
+    {
+      "feature": "cp",
+      "importance": 0.0307,
+      "std": 0.0186
+    },
+    {
+      "feature": "oldpeak",
+      "importance": 0.0213,
+      "std": 0.012
+    },
+    {
+      "feature": "thalach",
+      "importance": 0.0145,
+      "std": 0.0114
+    },
+    {
+      "feature": "thal",
+      "importance": 0.0115,
+      "std": 0.0226
+    },
+    {
+      "feature": "sex",
+      "importance": 0.0106,
+      "std": 0.0074
+    },
+    {
+      "feature": "exang",
+      "importance": 0.0086,
+      "std": 0.0071
+    },
+    {
+      "feature": "trestbps",
+      "importance": 0.0018,
+      "std": 0.0047
+    },
+    {
+      "feature": "age",
+      "importance": 0.0007,
+      "std": 0.0045
+    },
+    {
+      "feature": "fbs",
+      "importance": -0.0002,
+      "std": 0.0016
+    },
+    {
+      "feature": "chol",
+      "importance": -0.0014,
+      "std": 0.0053
+    },
+    {
+      "feature": "restecg",
+      "importance": -0.0038,
+      "std": 0.0078
+    },
+    {
+      "feature": "slope",
+      "importance": -0.0045,
+      "std": 0.0181
+    }
+  ],
+  "leave_one_source_out": [],
+  "versions": {
+    "sklearn": "1.7.2"
+  }
+}

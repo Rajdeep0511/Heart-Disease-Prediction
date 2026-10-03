@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}About the model · Heart Risk Check{% endblock %}
+{% block content %}
+<h1>About the model</h1>
+{% if not m %}
+  <div class="panel"><p>No trained model found. Run <code>python -m heartml.train</code> and reload this page.</p></div>
+{% else %}
+<p class="lead">The estimate comes from <strong>{{ m.best_model }}</strong>, chosen from {{ table|length }} candidate models because it had the best cross-validated ROC-AUC. It was trained on {{ m.n_samples }} unique patients.</p>
+
+<section class="panel">
+  <h2>Accuracy on patients it had never seen</h2>
+  <dl class="details cols">
+    <dt>ROC-AUC</dt><dd>{{ m.holdout.auc }} <span class="muted">(95% CI {{ m.holdout.auc_ci95.0 }}–{{ m.holdout.auc_ci95.1 }})</span></dd>
+    <dt>Accuracy</dt><dd>{{ m.holdout.accuracy }} <span class="muted">(95% CI {{ m.holdout.accuracy_ci95.0 }}–{{ m.holdout.accuracy_ci95.1 }})</span></dd>
+    <dt>Recall (disease found)</dt><dd>{{ m.holdout.recall }}</dd>
+    <dt>Specificity (healthy cleared)</dt><dd>{{ m.holdout.specificity }}</dd>
+    <dt>Precision</dt><dd>{{ m.holdout.precision }}</dd>
+    <dt>Test patients</dt><dd>{{ m.holdout.n }}</dd>
+  </dl>
+  <p class="muted">The test set is small, so treat these numbers as approximate. Differences of a point or two between algorithms are within noise.</p>
+</section>
+
+<section class="panel">
+  <h2>Algorithms compared</h2>
+  <div class="scroll"><table class="table">
+    <thead><tr><th>Model</th><th>ROC-AUC</th><th>Accuracy</th><th>Recall</th><th>F1</th></tr></thead>
+    <tbody>{% for r in table %}
+      <tr{% if r.model == m.best_model %} class="best"{% endif %}><td>{{ r.model }}</td><td>{{ r.auc }} ± {{ r.auc_std }}</td><td>{{ r.accuracy }}</td><td>{{ r.recall }}</td><td>{{ r.f1 }}</td></tr>
+    {% endfor %}</tbody>
+  </table></div>
+  <p class="muted">Repeated {{ m.cv.folds }}-fold cross-validation on the training part ({{ m.imbalance_strategy }} for class balance).</p>
+</section>
+
+<section class="panel">
+  <h2>Which measurements matter most</h2>
+  <p class="muted">Drop in test AUC when a measurement is shuffled (permutation importance).</p>
+  <ul class="bars">{% for r in importance %}
+    <li><span class="name">{{ r.feature }}</span><span class="track"><span style="width: {{ r.width }}%"></span></span><span class="val">{{ r.importance }}</span></li>
+  {% endfor %}</ul>
+</section>
+
+<section class="panel">
+  <h2>Training data</h2>
+  <ul>{% for s in sources %}<li><strong>{{ s.file }}</strong>: {{ s.rows_raw }} rows, {{ s.rows_final }} kept after removing duplicates and overlap.</li>{% endfor %}</ul>
+  {% for s in skipped %}<p class="muted">Not used: {{ s.file }} — {{ s.reason }}</p>{% endfor %}
+  {% if m.leave_one_source_out %}
+    <h3>Tested on a different hospital's data</h3>
+    <ul>{% for r in m.leave_one_source_out %}<li>Trained without {{ r.held_out_source }}, tested on it: ROC-AUC {{ r.auc }} (n={{ r.rows }})</li>{% endfor %}</ul>
+  {% endif %}
+  <p class="muted">Trained {{ m.trained_at|slice:":10" }}. The data are historical clinic records, so results may not transfer equally well to every population.</p>
+</section>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Result · Heart Risk Check{% endblock %}
+{% block content %}
+<h1>Your result</h1>
+<p class="muted">{{ p.created_at|date:"j M Y, H:i" }}</p>
+
+<section class="panel result {{ p.band }}">
+  <p class="big"><span>{{ p.percent }}%</span> estimated likelihood of heart disease</p>
+  <div class="meter" role="img" aria-label="{{ p.percent }} percent, {{ p.band_label }}">
+    <div class="fill" style="width: {{ p.percent }}%"></div>
+    <i style="left:30%"></i><i style="left:60%"></i>
+  </div>
+  <div class="scale"><span>Lower</span><span>Moderate</span><span>Higher</span></div>
+  <p class="verdict"><strong>{{ p.band_label }}.</strong>
+  {% if p.band == "low" %}Your values look more like patients without heart disease. Keep up regular check-ups.
+  {% elif p.band == "moderate" %}Your values are mixed. Share this result with a doctor, especially if you have symptoms.
+  {% else %}Your values resemble patients who had heart disease. Please book an appointment with a doctor soon and share these results.{% endif %}</p>
+</section>
+
+<section class="panel">
+  <h2>Values worth discussing</h2>
+  {% if flags %}
+    <ul class="flags">{% for f in flags %}<li>{{ f }}</li>{% endfor %}</ul>
+  {% else %}
+    <p>None of the values you entered fall outside the common reference ranges used here.</p>
+  {% endif %}
+  <p class="muted">Reference ranges are general guides, not personal medical advice.</p>
+</section>
+
+<section class="panel">
+  <h2>What you entered</h2>
+  <dl class="details cols">
+    <dt>Age</dt><dd>{{ p.age }}</dd>
+    <dt>Sex</dt><dd>{{ p.get_sex_display }}</dd>
+    <dt>Chest pain type</dt><dd>{{ p.get_cp_display }}</dd>
+    <dt>Exercise chest pain</dt><dd>{{ p.get_exang_display }}</dd>
+    <dt>Resting blood pressure</dt><dd>{{ p.trestbps }} mmHg</dd>
+    <dt>Cholesterol</dt><dd>{{ p.chol }} mg/dl</dd>
+    <dt>Fasting sugar &gt; 120</dt><dd>{{ p.get_fbs_display }}</dd>
+    <dt>Resting ECG</dt><dd>{{ p.get_restecg_display }}</dd>
+    <dt>Max heart rate</dt><dd>{{ p.thalach }} bpm</dd>
+    <dt>ST depression</dt><dd>{{ p.oldpeak }}</dd>
+    <dt>ST slope</dt><dd>{{ p.get_slope_display }}</dd>
+    <dt>Vessels coloured</dt><dd>{{ p.ca }}</dd>
+    <dt>Thallium test</dt><dd>{{ p.get_thal_display }}</dd>
+  </dl>
+  <p class="muted">Estimated by: {{ p.model_name }}. <a href="{% url 'model_info' %}">How accurate is it?</a></p>
+</section>
+
+<p><a class="btn" href="{% url 'predict' %}">New check</a> <a class="btn ghost" href="{% url 'history' %}">All checks</a></p>
+{% endblock %}

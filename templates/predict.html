@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}New check · Heart Risk Check{% endblock %}
+{% block content %}
+<h1>New check</h1>
+<p class="lead">Fill in every field using your latest reports. Hover or tap into a field for guidance.</p>
+{% if form.errors %}<p class="msg error">Please correct the highlighted fields.</p>{% endif %}
+<form method="post" class="check" novalidate>
+  {% csrf_token %}
+  {% for title, fields in form.grouped %}
+  <fieldset class="panel">
+    <legend>{{ title }}</legend>
+    <div class="grid">
+      {% for field in fields %}{% include "_field.html" %}{% endfor %}
+    </div>
+  </fieldset>
+  {% endfor %}
+  <p><button class="btn" type="submit">Get my result</button></p>
+</form>
+{% endblock %}

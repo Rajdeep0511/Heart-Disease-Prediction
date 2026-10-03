@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}My details · Heart Risk Check{% endblock %}
+{% block content %}
+<section class="narrow">
+  <h1>My details</h1>
+  {% if editing %}
+    <form method="post" class="stack" novalidate>
+      {% csrf_token %}
+      {% for field in form %}{% include "_field.html" %}{% endfor %}
+      <p><button class="btn" type="submit">Save changes</button> <a class="btn ghost" href="{% url 'profile' %}">Cancel</a></p>
+    </form>
+  {% else %}
+    <dl class="details">
+      <dt>Username</dt><dd>{{ patient.user.username }}</dd>
+      <dt>Full name</dt><dd>{{ patient.user.first_name|default:"—" }}</dd>
+      <dt>Email</dt><dd>{{ patient.user.email|default:"—" }}</dd>
+      <dt>Date of birth</dt><dd>{% if patient.date_of_birth %}{{ patient.date_of_birth|date:"j M Y" }} ({{ patient.age }} years){% else %}—{% endif %}</dd>
+      <dt>Gender</dt><dd>{{ patient.get_gender_display|default:"—" }}</dd>
+      <dt>Phone</dt><dd>{{ patient.phone|default:"—" }}</dd>
+      <dt>City</dt><dd>{{ patient.city|default:"—" }}</dd>
+    </dl>
+    <p><a class="btn" href="?edit=1">Edit details</a></p>
+  {% endif %}
+</section>
+{% endblock %}

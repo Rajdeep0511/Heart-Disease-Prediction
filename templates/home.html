@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="intro">
+  <h1>Check your heart disease risk from 13 routine measurements</h1>
+  <p class="lead">Enter results from a check-up and stress test. A machine-learning model trained on clinical records from heart patients returns an estimated likelihood, with the values worth discussing with your doctor.</p>
+  {% if user.is_authenticated %}
+    <p><a class="btn" href="{% url 'predict' %}">Start a new check</a> <a class="btn ghost" href="{% url 'history' %}">View past checks</a></p>
+  {% else %}
+    <p><a class="btn" href="{% url 'register' %}">Create an account</a> <a class="btn ghost" href="{% url 'login' %}">Log in</a></p>
+  {% endif %}
+</section>
+
+{% if latest %}
+<section class="panel">
+  <h2>Your latest check</h2>
+  <p>{{ latest.created_at|date:"j M Y, H:i" }} &mdash; <strong>{{ latest.percent }}%</strong> estimated likelihood ({{ latest.band_label|lower }}).
+     <a href="{% url 'result' latest.pk %}">See details</a></p>
+</section>
+{% endif %}
+
+<section class="panel">
+  <h2>How it works</h2>
+  <ol class="steps">
+    <li><strong>Create an account</strong> so your checks are saved privately.</li>
+    <li><strong>Enter your measurements.</strong> Each field explains where to find the value on your reports.</li>
+    <li><strong>Read your result:</strong> a likelihood, the values outside common reference ranges, and a record you can revisit.</li>
+  </ol>
+</section>
+{% endblock %}

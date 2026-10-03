@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Create account · Heart Risk Check{% endblock %}
+{% block content %}
+<section class="narrow">
+  <h1>Create your account</h1>
+  <form method="post" class="stack" novalidate>
+    {% csrf_token %}
+    {% for field in form %}{% include "_field.html" %}{% endfor %}
+    <button class="btn" type="submit">Create account</button>
+  </form>
+  <p class="muted">Already registered? <a href="{% url 'login' %}">Log in</a></p>
+</section>
+{% endblock %}

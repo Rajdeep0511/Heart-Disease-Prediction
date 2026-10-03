@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}History · Heart Risk Check{% endblock %}
+{% block content %}
+<h1>Past checks</h1>
+{% if items %}
+<div class="scroll">
+<table class="table">
+  <thead><tr><th>Date</th><th>Likelihood</th><th>Level</th><th>Age</th><th>BP</th><th>Chol.</th><th></th></tr></thead>
+  <tbody>
+  {% for p in items %}
+    <tr>
+      <td>{{ p.created_at|date:"j M Y, H:i" }}</td>
+      <td><strong>{{ p.percent }}%</strong></td>
+      <td><span class="tag {{ p.band }}">{{ p.band_label }}</span></td>
+      <td>{{ p.age }}</td><td>{{ p.trestbps }}</td><td>{{ p.chol }}</td>
+      <td class="actions">
+        <a href="{% url 'result' p.pk %}">View</a>
+        <form method="post" action="{% url 'delete_prediction' p.pk %}" onsubmit="return confirm('Delete this check?');">{% csrf_token %}<button class="linklike danger" type="submit">Delete</button></form>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% else %}
+  <div class="panel"><p>You have no saved checks yet.</p><p><a class="btn" href="{% url 'predict' %}">Start your first check</a></p></div>
+{% endif %}
+{% endblock %}
